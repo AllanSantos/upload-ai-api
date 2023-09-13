@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example_node.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/70533d54-90f7-4c37-b822-3bea7936284f/transcription
+Content-Type: application/json
+
+{
+  "prompt": "nodejs, developer, javascript "
+}
+
+###
+
+# @name generative-ai-complete
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "70533d54-90f7-4c37-b822-3bea7936284f",
+  "temperature": 0.5,
+  "template": "Gere um resumo sucinto da transcrição do video informada a seguir: '''{transcription}'''"
+}
